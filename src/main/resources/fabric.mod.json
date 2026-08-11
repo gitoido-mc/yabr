@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "yabr",
+  "version": "${version}",
+  "name": "yabr",
+  "description": "Yet Another Battle Royale",
+  "authors": [],
+  "contact": {},
+  "license": "GPL-3.0",
+  "icon": "assets/yabr/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-datagen": ["lol.gito.yabr.client.YabrDataGenerator"],
+    "client": ["lol.gito.yabr.client.YabrClient"],
+    "main": ["lol.gito.yabr.Yabr"]
+  },
+  "mixins": [
+    "yabr.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-language-kotlin": ">=${kotlin_loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
