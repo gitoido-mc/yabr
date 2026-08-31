@@ -1,3 +1,1 @@
 classTweaker  v2  official
-
-extend-enum net/minecraft/util/datafix/DataFixTypes YABR_GAME_STATE
