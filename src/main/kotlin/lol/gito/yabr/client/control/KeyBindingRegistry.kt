@@ -3,7 +3,7 @@ package lol.gito.yabr.client.control
 import com.mojang.blaze3d.platform.InputConstants
 import lol.gito.yabr.Yabr.Companion.modId
 import lol.gito.yabr.Yabr.Companion.tlk
-import lol.gito.yabr.net.NetworkManager
+import lol.gito.yabr.net.packet.c2s.LocatePlayerRequestC2S
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
@@ -43,13 +43,11 @@ object KeyBindingRegistry {
     private fun maybePlayerLocatorRequest(client: Minecraft) {
         while (this.LOCATOR.consumeClick()) {
             if (client.player == null) return
-//            if (!cooldowns.contains(this.LOCATOR)) {
-//                this.cooldowns[this.LOCATOR] = LOCATOR_COOLDOWN
+            if (!cooldowns.contains(this.LOCATOR)) {
+                this.cooldowns[this.LOCATOR] = LOCATOR_COOLDOWN
 
-            if (client.player != null) {
-                ClientPlayNetworking.send(NetworkManager.LocatePlayerRequestC2S(client.player!!.id))
+                ClientPlayNetworking.send(LocatePlayerRequestC2S(client.player!!.id))
             }
-//            }
         }
     }
 }

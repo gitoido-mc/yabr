@@ -7,6 +7,7 @@ plugins {
     id("maven-publish")
 }
 
+val targetJavaVersion = 25
 version = project.property("mod_version") as String
 group = project.property("maven_group") as String
 
@@ -14,13 +15,13 @@ base {
     archivesName.set(project.property("archives_base_name") as String)
 }
 
-val targetJavaVersion = 25
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
-    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-    // if it is present.
-    // If you remove this line, sources will not be generated.
     withSourcesJar()
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/yabr.classtweaker")
 }
 
 fabricApi {
@@ -30,20 +31,18 @@ fabricApi {
 }
 
 repositories {
-    // Add repositories to retrieve artifacts from in here.
-    // You should only use this when depending on other mods because
-    // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-    // See https://docs.gradle.org/current/userguide/declaring_repositories.html
-    // for more information about repositories.
+    maven { url = uri("https://maven.shedaniel.me/") }
 }
 
 dependencies {
     // To change the versions see the gradle.properties file
     minecraft("com.mojang:minecraft:${project.property("minecraft_version")}")
+
     implementation("net.fabricmc:fabric-loader:${project.property("loader_version")}")
     implementation("net.fabricmc:fabric-language-kotlin:${project.property("kotlin_loader_version")}")
-
     implementation("net.fabricmc.fabric-api:fabric-api:${project.property("fabric_version")}")
+
+    api("me.shedaniel.cloth:cloth-config-fabric:26.2.155")
 }
 
 tasks.processResources {

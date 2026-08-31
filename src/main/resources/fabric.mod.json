@@ -9,6 +9,7 @@
   "license": "GPL-3.0",
   "icon": "assets/yabr/icon.png",
   "environment": "*",
+  "accessWidener": "yabr.classtweaker",
   "entrypoints": {
     "fabric-datagen": ["lol.gito.yabr.client.YabrDataGenerator"],
     "client": ["lol.gito.yabr.client.YabrClient"],
