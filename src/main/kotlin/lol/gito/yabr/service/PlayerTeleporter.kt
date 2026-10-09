@@ -6,10 +6,14 @@ import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.tags.BlockTags
+import net.minecraft.tags.FluidTags
 import net.minecraft.util.Mth
 import net.minecraft.util.RandomSource
 import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.Relative
 import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.material.Fluid
+import kotlin.collections.setOf
 import kotlin.math.min
 import kotlin.math.sqrt
 
@@ -19,6 +23,18 @@ object PlayerTeleporter {
         player: ServerPlayer,
         pos: BlockPos,
     ) {
+        val structurePos = pos.atY(266).south(13).east(13)
+
+        player.teleportTo(
+            level,
+            structurePos.x.toDouble(),
+            structurePos.y.toDouble(),
+            structurePos.z.toDouble(),
+            setOf<Relative>(),
+            0.0f,
+            0.0f,
+            true,
+        )
     }
 
     fun spreadPlayers(
@@ -265,7 +281,10 @@ object PlayerTeleporter {
         ): Boolean {
             val pos = BlockPos.containing(this.x, (this.getSpawnY(level, maxHeight) - 1).toDouble(), this.z)
             val state = level.getBlockState(pos)
-            return pos.y < maxHeight && !state.liquid() && !state.`is`(BlockTags.FIRE)
+            return pos.y < maxHeight &&
+                !state.fluidState.`is`(FluidTags.LAVA) &&
+                !state.fluidState.`is`(FluidTags.WATER) &&
+                !state.`is`(BlockTags.FIRE)
         }
 
         fun randomize(

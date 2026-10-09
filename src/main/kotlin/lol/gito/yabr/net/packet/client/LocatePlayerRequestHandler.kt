@@ -1,4 +1,4 @@
-package lol.gito.yabr.net.packet.c2s
+package lol.gito.yabr.net.packet.client
 
 import lol.gito.yabr.Yabr
 import lol.gito.yabr.service.EntityLocator
@@ -10,20 +10,17 @@ import net.minecraft.world.entity.projectile.EyeOfEnder
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.gameevent.GameEvent
 
-object LocatePlayerRequestC2SHandler {
+object LocatePlayerRequestHandler {
     operator fun invoke(
-        payload: LocatePlayerRequestC2S,
+        payload: LocatePlayerRequest,
         context: ServerPlayNetworking.Context,
     ) {
-        Yabr.info("c2s recv ${payload::class}")
-        if (context.player().id != payload.entityId) return
-        Yabr.info("same ids")
-        val level = context.player().level()
         val player = context.player()
+        if (player.id != payload.entityId) return
 
-        val located =
-            EntityLocator.locate(level, context.player()) ?: return
-        Yabr.info("located someone ")
+        val level = context.player().level()
+        val located = EntityLocator.locate(level, player) ?: return
+
         val eyeOfEnder = EyeOfEnder(level, player.x, player.getY(0.5), player.z)
         eyeOfEnder.item = ItemStack.EMPTY
         eyeOfEnder.signalTo(located.position())

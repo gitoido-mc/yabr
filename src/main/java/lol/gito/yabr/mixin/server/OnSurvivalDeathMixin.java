@@ -11,11 +11,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ServerPlayer.class)
 public class OnSurvivalDeathMixin {
-
     @Inject(method = "die", at = @At("TAIL"))
     public void yabr$switchGamemode(DamageSource source, CallbackInfo ci) {
         ServerPlayer player = (ServerPlayer) (Object) this;
         if (player.permissions().hasPermission(Permissions.COMMANDS_MODERATOR)) return;
-        player.setGameMode(GameType.ADVENTURE);
+        if (player.gameMode.getGameModeForPlayer() != GameType.SURVIVAL) return;
+        player.setGameMode(GameType.SPECTATOR);
     }
 }

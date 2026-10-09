@@ -1,6 +1,5 @@
 package lol.gito.yabr.service
 
-import lol.gito.yabr.Yabr
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.server.level.ServerPlayerGameMode
@@ -16,10 +15,9 @@ object EntityLocator {
 
     @JvmStatic
     private val predicate =
-        TargetingConditions.Selector { entity, level ->
-            if (entity is ServerPlayer && !ServerPlayerGameMode(entity).isSurvival) return@Selector false
-            if (!level.worldBorder.isWithinBounds(entity.position())) return@Selector false
-            if (entity.y >= 300) return@Selector false
-            return@Selector true
+        TargetingConditions.Selector run@{ entity, level ->
+            if (entity is ServerPlayer && !ServerPlayerGameMode(entity).isSurvival) return@run false
+            if (!level.worldBorder.isWithinBounds(entity.position())) return@run false
+            return@run true
         }
 }

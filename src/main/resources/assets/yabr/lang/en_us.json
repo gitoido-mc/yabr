@@ -1,4 +1,10 @@
 {
   "key.category.yabr.controls": "YABR Controls",
-  "key.yabr.locate": "Locate player"
+  "key.yabr.locate": "Locate nearest player",
+  "item.yabr.configurator": "YABR Configurator",
+  "configurator.yabr.title": "YABR",
+  "category.yabr.general": "Game rules",
+  "option.yabr.radius": "Game field radius",
+  "option.yabr.round_time": "Round time in minutes",
+  "option.yabr.interval_time": "Interval time in minutes"
 }
