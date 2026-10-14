@@ -17,6 +17,12 @@ import kotlin.math.min
 import kotlin.math.sqrt
 
 object PlayerTeleporter {
+    fun teleportAll(level: ServerLevel, pos: BlockPos) {
+        level.server.playerList.players.forEach {
+            teleportPlayer(level, it, pos)
+        }
+    }
+
     fun teleportPlayer(
         level: ServerLevel,
         player: ServerPlayer,

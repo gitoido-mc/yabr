@@ -84,10 +84,9 @@ class Configurator(
             Yabr.state.center = context.clickedPos.atY(266).south(13).east(13)
             PlaceStructure(modId("lobby"), context.level as ServerLevel, context.clickedPos).run()
             PregenerateField(context.level as ServerLevel, context.clickedPos, Yabr.state.radius).run()
-            PlayerTeleporter.teleportPlayer(
+            PlayerTeleporter.teleportAll(
                 context.level as ServerLevel,
-                context.player as ServerPlayer,
-                context.clickedPos,
+                Yabr.state.center,
             )
         }
 
