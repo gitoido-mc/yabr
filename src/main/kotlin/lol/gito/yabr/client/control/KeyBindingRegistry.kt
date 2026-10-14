@@ -21,7 +21,7 @@ object KeyBindingRegistry {
         KeyMappingHelper.registerKeyMapping(
             KeyMapping(
                 tlk("locate", "key"),
-                InputConstants.Type.KEYSYM,
+                InputConstants.Type.KEYBOARD,
                 InputConstants.KEY_R,
                 CATEGORY,
             ),

@@ -17,7 +17,7 @@ class PlaceStructure(
     val pos: BlockPos,
 ) : ActionInterface {
     override fun run() {
-        val structTemplateManager = level.server.structureManager
+        val structTemplateManager = level.server.structureTemplateManager
         val structureTemplate = structTemplateManager.get(structure)
 
         if (structureTemplate != null) {

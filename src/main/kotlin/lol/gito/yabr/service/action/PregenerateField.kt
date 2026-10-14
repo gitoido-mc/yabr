@@ -14,7 +14,7 @@ class PregenerateField(
         val chunky = ChunkyProvider.get().api
         val levelName = level.dimension().identifier().toString()
         Yabr.info("chunky version: ${chunky.version()}")
-        if (chunky.version() == 0 && !chunky.isRunning(levelName)) {
+        if (!chunky.isRunning(levelName)) {
             chunky.startTask(
                 levelName,
                 "square",

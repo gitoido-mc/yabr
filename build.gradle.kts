@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    kotlin("jvm") version "2.4.10"
-    id("net.fabricmc.fabric-loom") version "1.18-SNAPSHOT"
+    kotlin("jvm")
+    id("net.fabricmc.fabric-loom")
     id("maven-publish")
     id("idea")
 }
@@ -13,7 +13,7 @@ idea {
     }
 }
 
-val targetJavaVersion = 25
+val targetJavaVersion = project.property("java_version").toString().toInt()
 version = project.property("mod_version") as String
 group = project.property("maven_group") as String
 
@@ -35,6 +35,15 @@ kotlin {
 
 loom {
     accessWidenerPath = file("src/main/resources/yabr.classtweaker")
+
+    runs {
+        getByName("client") {
+            jvmArguments.add("-XX:+AllowEnhancedClassRedefinition")
+        }
+        getByName("server") {
+            jvmArguments.add("-XX:+AllowEnhancedClassRedefinition")
+        }
+    }
 }
 
 fabricApi {
@@ -56,11 +65,11 @@ dependencies {
     implementation("net.fabricmc:fabric-loader:${project.property("loader_version")}")
     implementation("net.fabricmc:fabric-language-kotlin:${project.property("kotlin_loader_version")}")
     implementation("net.fabricmc.fabric-api:fabric-api:${project.property("fabric_version")}")
-    implementation(include("net.kyori:adventure-platform-fabric:7.1.1")!!)
-    implementation("org.popcraft:chunky-fabric:1.5.4")
-    compileOnly("org.popcraft:chunky-common:1.5.4")
+    implementation(include("net.kyori:adventure-platform-fabric:${project.property("adventure_platform_fabric_version")}")!!)
+    implementation("org.popcraft:chunky-fabric:${project.property("chunky_version")}")
+    compileOnly("org.popcraft:chunky-common:${project.property("chunky_version")}")
 
-    api("me.shedaniel.cloth:cloth-config-fabric:26.2.155") {
+    api("me.shedaniel.cloth:cloth-config-fabric:${project.property("cloth_config_version")}") {
         exclude(group = "net.fabricmc.fabric-api")
     }
 }

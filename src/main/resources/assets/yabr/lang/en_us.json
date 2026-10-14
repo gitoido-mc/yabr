@@ -6,5 +6,8 @@
   "category.yabr.general": "Game rules",
   "option.yabr.radius": "Game field radius",
   "option.yabr.round_time": "Round time in minutes",
-  "option.yabr.interval_time": "Interval time in minutes"
+  "option.yabr.interval_time": "Interval time in minutes",
+  "message.yabr.pick_other_place": "Choose a location more than 64 blocks away from another claim.",
+  "message.yabr.battle_already_started": "A battle royale round is already in progress.",
+  "message.yabr.battle_winner": "%s wins the battle royale!"
 }

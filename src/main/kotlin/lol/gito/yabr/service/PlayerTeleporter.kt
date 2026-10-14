@@ -12,7 +12,6 @@ import net.minecraft.util.RandomSource
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.Relative
 import net.minecraft.world.level.BlockGetter
-import net.minecraft.world.level.material.Fluid
 import kotlin.collections.setOf
 import kotlin.math.min
 import kotlin.math.sqrt
@@ -23,13 +22,11 @@ object PlayerTeleporter {
         player: ServerPlayer,
         pos: BlockPos,
     ) {
-        val structurePos = pos.atY(266).south(13).east(13)
-
         player.teleportTo(
             level,
-            structurePos.x.toDouble(),
-            structurePos.y.toDouble(),
-            structurePos.z.toDouble(),
+            pos.x.toDouble(),
+            pos.y.toDouble(),
+            pos.z.toDouble(),
             setOf<Relative>(),
             0.0f,
             0.0f,
@@ -40,16 +37,21 @@ object PlayerTeleporter {
     fun spreadPlayers(
         level: ServerLevel,
         players: List<ServerPlayer>,
-        center: BlockPos,
-        spreadDistance: Int,
-        maxRange: Int,
-        maxHeight: Int,
+        maxHeight: Int = 256,
     ) {
+        if (players.isEmpty()) return
+
         val random = RandomSource.createThreadLocalInstance()
-        val minX = (center.x - maxRange).toDouble()
-        val minZ = (center.y - maxRange).toDouble()
-        val maxX = (center.x + maxRange).toDouble()
-        val maxZ = (center.y + maxRange).toDouble()
+        val border = level.worldBorder
+        val minX = border.minX + 1.0
+        val minZ = border.minZ + 1.0
+        val maxX = border.maxX - 1.0
+        val maxZ = border.maxZ - 1.0
+        val spreadDistance =
+            min(
+                256.0,
+                min(maxX - minX, maxZ - minZ) / sqrt(players.size.toDouble()),
+            )
         val positions =
             createInitialPositions(
                 random,
@@ -60,7 +62,7 @@ object PlayerTeleporter {
                 maxZ,
             )
         spreadPositions(
-            spreadDistance.toDouble(),
+            spreadDistance,
             level,
             random,
             minX,
